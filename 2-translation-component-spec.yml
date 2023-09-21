@@ -1,0 +1,76 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+type: command
+
+name: texttranslationcomponent
+version: '1.1.3'
+display_name: Text Translation Component
+
+inputs:
+  text:
+    type: string
+    description: The text to translate
+  target_languages:
+    type: string
+    description: Target languages separated by commas
+  key:
+    type: string
+    description: Azure subscription key for translation
+  endpoint:
+    type: string
+    description: Azure endpoint for translation
+  region:
+    type: string
+    description: Azure region for translation
+
+outputs:
+  translated_text:
+    type: string
+    description: Translated text
+
+code: ./
+environment: azureml:docker-image-for-pair-matching:2
+  # python:
+  #   condaDependencies:
+  #     pip:
+  #     - azure-ai-translation-text==1.0.0b1
+  #     - jellyfish==0.9.0
+  #     - joblib==1.2.0
+  #     - numpy==1.23.4
+  #     - pandas==1.5.1
+  #     - python-dateutil==2.8.2
+  #     - pytz==2022.6
+  #     - recordlinkage==0.15
+  #     - scikit-learn==1.1.3
+  #     - scipy==1.9.3
+  #     - six==1.16.0
+  #     - threadpoolctl==3.1.0
+  #     - matplotlib~=3.5.0
+  #     - psutil~=5.8.0
+  #     - tqdm~=4.62.0
+  #     - ipykernel~=6.0
+  #     - azureml-core==1.47.0
+  #     - azureml-defaults==1.47.0
+  #     - azureml-mlflow==1.47.0
+  #     - azureml-telemetry==1.47.0
+  #     - debugpy~=1.6.3
+  #     - openai==0.26.4
+  #     - pandasql==0.7.3
+  #     - azure-ai-ml==1.1.0
+  #     - azure-ai-formrecognizer==3.2.0
+  #     - azure-ai-textanalytics==5.2.1
+  #     - sqlalchemy==1.4.40
+  #     - openpyxl==3.0.10
+  #     - pypdf2==3.0.1
+  #     - confluent-kafka==1.7.0
+  #     - pymsteams==0.2.2
+  #     - azure-search-documents==11.4.0b3
+  #     - pypdf==3.5.0
+command: >-
+  python 1-translation-component.py
+  --text ${{inputs.text}}
+  --target-languages ${{inputs.target_languages}}
+  --key ${{inputs.key}}
+  --endpoint ${{inputs.endpoint}}
+  --region ${{inputs.region}}
+  --output ${{outputs.translated_text}}
+
